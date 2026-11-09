@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation using a roving tabindex</title>
+    <style>
+        :root {
+            --toolbar-bg: #102a43;
+            --toolbar-border: #1f4e79;
+            --button-bg: #6fb9ff;
+            --disabled: #888899;
+            --button-hover: #b0dafa;
+            --button-active: #f6c453;
+            --text-dark: #102a43;
+            --button-pressed-border: #102a43;
+            --focus: #ffd166;
+        }
+
+        .toolbar-container {
+            padding: 1.25rem;
+            background: var(--toolbar-border);
+            max-width: 505px;
+        }
+
+        div[role="toolbar"] {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 100%;
+            padding: 0.75rem;
+            background: var(--toolbar-bg);
+            border: 2px solid transparent;
+            border-radius: 0.5rem;
+        }
+
+        div[role="toolbar"]:focus-within {
+            border-color: var(--focus);
+        }
+
+        .visually-hidden:not(:focus):not(:active) {
+            clip: rect(0 0 0 0);
+            clip-path: inset(100%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            width: 1px;
+            white-space: nowrap;
+        }
+
+        button {
+            display: inline-flex;
+            font-size: 1rem;
+            padding: 1rem;
+            margin: 0.15rem;
+            color: var(--text-dark);
+            background: var(--button-bg);
+            border: 2px solid transparent;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--button-hover);
+        }
+
+        button:active {
+            background: var(--button-hover);
+        }
+
+        button[aria-pressed="true"] {
+            color: var(--text-dark);
+            background: var(--button-active);
+            box-shadow: inset 0 0 0 3px var(--text-dark);
+        }
+
+        button:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
+        }
+
+        div[role="toolbar"] button[aria-disabled="true"] {
+            background-color: var(--disabled);
+            cursor: not-allowed;
+        }
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            fill: currentColor;
+        }
+
+        .info,
+        .outside-tab {
+            font-size: 1.5rem;
+        }
+
+        .outside-tab {
+            padding: 1.5rem;
+        }
+
+        .outside-tab a:focus-visible {
+            outline: 3px solid var(--text-dark);
+            outline-offset: 3px;
+        }
+
+        /* Taken from MDN docs */
+        kbd {
+            background-color: #eeeeee;
+            border-radius: 3px;
+            border: 1px solid #b4b4b4;
+            box-shadow:
+                0 1px 1px rgb(0 0 0 / 0.2),
+                0 2px 0 0 rgb(255 255 255 / 0.7) inset;
+            color: #333333;
+            display: inline-block;
+            font-size: 0.85em;
+            font-weight: bold;
+            line-height: 1;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outside-tab">
+        <a href="#">Can TAB to this link outside the toolbar.</a>
+    </div>
+    <div class="toolbar-container">
+        <div role="toolbar" aria-label="Text editing">
+            <button aria-pressed="false" tabindex="0">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M22.121 15.145c1.172-1.392 1.879-3.188 1.879-5.145 0-4.411-3.589-8-8-8h-10v28h12c4.411 0 8-3.589 8-8 0-2.905-1.556-5.453-3.879-6.855zM12 6h3.172c1.749 0 3.172 1.794 3.172 4s-1.423 4-3.172 4h-3.172v-8zM16.969 26h-4.969v-8h4.969c1.827 0 3.313 1.794 3.313 4s-1.486 4-3.313 4z">
+                    </path>
+                </svg>
+                <span class="visually-hidden">Bold</span>
+            </button>
+            <button aria-pressed="false" tabindex="-1">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path d="M28 2v2h-4l-10 24h4v2h-14v-2h4l10-24h-4v-2z"></path>
+                </svg>
+                <span class="visually-hidden">Italic</span>
+            </button>
+            <button aria-pressed="false" tabindex="-1">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M22 2h4v13c0 4.971-4.477 9-10 9s-10-4.029-10-9v-13h4v13c0 1.255 0.57 2.459 1.605 3.391 1.153 1.038 2.714 1.609 4.395 1.609s3.242-0.572 4.395-1.609c1.035-0.931 1.605-2.136 1.605-3.391v-13zM6 26h20v4h-20z">
+                    </path>
+                </svg>
+                <span class="visually-hidden">Underline</span>
+            </button>
+            <button tabindex="-1">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M20 8v-8h-14l-6 6v18h12v8h20v-24h-12zM6 2.828v3.172h-3.172l3.172-3.172zM2 22v-14h6v-6h10v6l-6 6v8h-10zM18 10.828v3.172h-3.172l3.172-3.172zM30 30h-16v-14h6v-6h10v20z">
+                    </path>
+                </svg>
+                <span class="visually-hidden">Copy</span>
+            </button>
+            <button tabindex="-1">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M22 4h-4v-2c0-1.1-0.9-2-2-2h-4c-1.1 0-2 0.9-2 2v2h-4v4h16v-4zM16 4h-4v-1.996c0.001-0.001 0.002-0.002 0.004-0.004h3.993c0.001 0.001 0.003 0.002 0.004 0.004v1.996zM26 10v-5c0-0.55-0.45-1-1-1h-2v2h1v4h-6l-6 6v8h-8v-18h1v-2h-2c-0.55 0-1 0.45-1 1v20c0 0.55 0.45 1 1 1h9v6h20v-22h-6zM18 12.828v3.172h-3.172l3.172-3.172zM30 30h-16v-12h6v-6h10v18z">
+                    </path>
+                </svg>
+                <span class="visually-hidden">Paste</span>
+            </button>
+            <button tabindex="-1" aria-disabled="true">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M23.808 32c3.554-6.439 4.153-16.26-9.808-15.932v7.932l-12-12 12-12v7.762c16.718-0.436 18.58 14.757 9.808 24.238z">
+                    </path>
+                </svg>
+                <span class="visually-hidden">Undo</span>
+            </button>
+            <button tabindex="-1" aria-disabled="true">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
+                    <path
+                        d="M18 7.762v-7.762l12 12-12 12v-7.932c-13.961-0.328-13.362 9.493-9.808 15.932-8.772-9.482-6.909-24.674 9.808-24.238z">
+                    </path>
+                </svg>
+                <span class="visually-hidden">Redo</span>
+            </button>
+        </div>
+    </div>
+    <div class="outside-tab">
+        <a href="#">Can TAB to this link outside the toolbar.</a>
+    </div>
+    <div class="info">
+        <ol>
+            <li>
+                You can <kbd>TAB</kbd> or <kbd>SHIFT + TAB</kbd> into and out of the toolbar.
+            </li>
+            <li>
+                You can move through the button options with the <kbd>LEFT</kbd> and <kbd>RIGHT</kbd> arrow keys.
+            </li>
+            <li>
+                All buttons respond to <kbd>SPACE</kbd> and <kbd>ENTER</kbd> keys.
+            </li>
+            <li>
+                The <strong>Bold</strong>, <em>Italic</em> and <u>Underline</u> buttons can be toggled on and off. They
+                use JS and aria-pressed to manage their state.
+            </li>
+            <li>
+                <strong>Optional additional functionality added</strong>:
+                <ol>
+                    <li>Press the <kbd>HOME</kbd> key to move focus to the <strong>first</strong> button in the toolbar.
+                    </li>
+                    <li>Press the <kbd>END</kbd> key to move focus to the <strong>last</strong> button in the toolbar.
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+    <script src="toolbar.js"></script>
+</body>
+
+</html>

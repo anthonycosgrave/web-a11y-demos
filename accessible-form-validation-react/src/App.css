@@ -1,0 +1,113 @@
+:root {
+  --color-error: #a62a16;
+  --color-success: #00703c;
+  --color-cta: #0066cc;
+}
+
+/* Base responsive container */
+main {
+  max-width: 37.5rem;
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+/* Stack form fields vertically, consistent spacing */
+form > div {
+  margin-block-end: 1.5rem;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-block-end: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Full-width inputs */
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+input:focus-visible {
+  outline: 0.1875rem solid #000000;
+  outline-offset: 0.1875rem;
+  border-color: #0b0c0c;
+}
+
+/* Buttons */
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 0.1875rem solid #000000;
+  outline-offset: 0.125rem;
+}
+
+.blue {
+  border: 0.125rem solid #00254a;
+  background-color: var(--color-cta);
+  color: white;
+}
+
+.blue:hover {
+  background-color: #0052a3;
+}
+
+.blue:active {
+  box-shadow: none;
+  transform: translateY(0.125rem);
+}
+
+/* Error styling */
+ div[id$="-error"] {
+  color: var(--color-error);
+  font-weight: 600;
+  margin-block-start: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+div[id$="-error"] svg {
+  vertical-align: text-top;
+  margin-inline-end: 0.25rem;
+}
+
+/* Invalid inputs */
+input[aria-invalid="true"] {
+  border: 0.1875rem solid var(--color-error);
+}
+
+/* Screen Reader Related */
+.visually-hidden:not(:focus):not(:active) {
+  clip-path: inset(50%);
+  height: 0.0625rem;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 0.0625rem;
+}
+
+ul li {
+  /* to get rid of the "bullet" announcement before each <li> */
+  list-style-type: none;
+}
+
+ul li::before {
+  /* 
+    for VoiceOver a zero width space 
+    https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html
+  */
+  content: "\200B";
+}

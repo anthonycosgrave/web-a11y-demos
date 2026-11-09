@@ -1,0 +1,14 @@
+.successBanner {
+    background-color: #00703c;
+    color: white;
+    padding: 1.5rem;
+    margin-block-end: 1.5rem;
+}
+
+main:focus-visible {
+    outline: none;
+}
+
+.verificationNotice {
+    font-size: 1.25rem;
+}
